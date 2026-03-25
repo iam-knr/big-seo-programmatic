@@ -119,7 +119,7 @@ $post_types     = get_post_types( [ 'public' => true ], 'objects' );
                     <td>
                         <input type="text" name="source_config[file_url]" class="large-text"
                                value="<?php echo esc_html( $config['file_url'] ?? '' ); ?>"
-                               placeholder="https://yourdomain.com/data.csv/
+                               placeholder="https://yourdomain.com/data.csv"
                     </td>
                 </tr>
 						</table>
