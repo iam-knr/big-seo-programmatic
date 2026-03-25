@@ -35,6 +35,29 @@
     $(document).on('change', '#pseo-source-type', updateSourcePanels);
     updateSourcePanels();
 
+    	/* ── CSV Upload via WP Media ─────────────────────────────── */
+	$(document).on('click', '#pseo-csv-upload-btn', function () {
+		var mediaUploader;
+		if (mediaUploader) {
+			mediaUploader.open();
+			return;
+		}
+		mediaUploader = wp.media({
+			title: PSEO.csv_upload_title || 'Select or Upload your CSV file',
+			button: { text: PSEO.csv_upload_button || 'Use this CSV' },
+			multiple: false,
+			library: { type: 'text/csv' }
+		});
+		mediaUploader.on('select', function () {
+			var attachment = mediaUploader.state().get('selection').first().toJSON();
+			if (attachment.url) {
+				$('#pseo-csv-upload-url').val(attachment.url);
+				$('#pseo-csv-upload-filename').text('✅ ' + attachment.filename);
+			}
+		});
+		mediaUploader.open();
+	});
+
     /* ── Schema hints ───────────────────────────────────────── */
     var schemaHints = {
         'LocalBusiness': 'Required columns: <strong>city</strong>, <strong>address</strong>, <strong>phone</strong>. Optional: business_name, state, zip, price_range.',
@@ -148,5 +171,12 @@
         navigator.clipboard.writeText($('#' + $(this).data('target')).text())
             .then(function () { notice('✓ Copied to clipboard!'); });
     });
+
+    	/* ── Init: Show existing CSV filename ──────────────────── */
+	var existingCsvUrl = $('#pseo-csv-upload-url').val();
+	if (existingCsvUrl) {
+		var filename = existingCsvUrl.split('/').pop();
+		$('#pseo-csv-upload-filename').text('✅ ' + decodeURIComponent(filename));
+	}
 
 }(jQuery));
