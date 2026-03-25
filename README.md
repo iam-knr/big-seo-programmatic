@@ -3,7 +3,7 @@ Contributors: kailasnathr
 Tags: programmatic-seo, bulk-page-generator, csv, seo, location-pages
 Requires at least: 5.5
 Tested up to: 6.9
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 Requires PHP: 7.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
