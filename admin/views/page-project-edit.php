@@ -94,11 +94,26 @@ $post_types     = get_post_types( [ 'public' => true ], 'objects' );
                         <select id="pseo-source-type" name="source_type">
                             <?php $st = $project->source_type ?? 'csv_url'; ?>
                             <option value="csv_url"       <?php selected( $st, 'csv_url' ); ?>>       📄 CSV via URL</option>
+                            						<option value="csv_upload" <?php selected( $st, 'csv_upload' ); ?>> 📤 Upload CSV</option>
                         </select>
                     </td>
                 </tr>
 
                 <!-- CSV / CSV Upload -->
+                 			<!-- CSV Upload Button -->
+			<tr class="pseo-source-panel pseo-source-csv_upload">
+				<th><?php esc_html_e( 'Upload CSV File', 'knr-pseo-generator' ); ?></th>
+				<td>
+					<button type="button" id="pseo-csv-upload-btn" class="button button-secondary">
+						📁 <?php esc_html_e( 'Choose CSV from Media Library', 'knr-pseo-generator' ); ?>
+					</button>
+					<p class="description">
+						<?php esc_html_e( 'Click the button above to upload or select a CSV file from your Media Library. The file URL will be saved automatically.', 'knr-pseo-generator' ); ?>
+					</p>
+					<input type="hidden" name="source_config[file_url]" id="pseo-csv-upload-url" class="large-text" value="<?php echo esc_attr( $config['file_url'] ?? '' ); ?>">
+					<p id="pseo-csv-upload-filename" class="description" style="margin-top:8px;font-weight:600;color:#2271b1;"></p>
+				</td>
+			</tr>
                 <tr class="pseo-source-panel pseo-source-csv_url pseo-source-csv_upload">
                     <th><?php esc_html_e( 'CSV File URL / Server Path', 'knr-pseo-generator' ); ?></th>
                     <td>
