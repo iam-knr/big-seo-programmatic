@@ -114,7 +114,7 @@ $post_types     = get_post_types( [ 'public' => true ], 'objects' );
 					<p id="pseo-csv-upload-filename" class="description" style="margin-top:8px;font-weight:600;color:#2271b1;"></p>
 				</td>
 			</tr>
-                <tr class="pseo-source-panel pseo-source-csv_url pseo-source-csv_upload">
+                <tr class="pseo-source-panel pseo-source-csv_url">
                     <th><?php esc_html_e( 'CSV File URL / Server Path', 'knr-pseo-generator' ); ?></th>
                     <td>
                         <input type="text" name="source_config[file_url]" class="large-text"
