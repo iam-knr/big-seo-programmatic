@@ -4,7 +4,6 @@ if (!defined('ABSPATH'))
 
 class PSEO_Admin
 {
-
 	public function __construct()
 	{
 		add_action('admin_menu', [$this, 'register_menu']);
@@ -14,7 +13,6 @@ class PSEO_Admin
 	}
 
 	/* ── Menu ─────────────────────────────────────────────── */
-
 	public function register_menu(): void
 	{
 		add_menu_page(
@@ -32,7 +30,6 @@ class PSEO_Admin
 	}
 
 	/* ── Assets ───────────────────────────────────────────── */
-
 	public function enqueue_assets(string $hook): void
 	{
 		if (strpos($hook, 'pseo') === false)
@@ -41,19 +38,26 @@ class PSEO_Admin
 		wp_enqueue_style('pseo-admin', PSEO_PLUGIN_URL . 'admin/css/pseo-admin.css', [], PSEO_VERSION);
 		wp_enqueue_script('pseo-admin', PSEO_PLUGIN_URL . 'admin/js/pseo-admin.js', ['jquery'], PSEO_VERSION, true);
 
+		// Load WP media uploader only on the project edit screen.
+		if (strpos($hook, 'pseo-project-edit') !== false) {
+			wp_enqueue_media();
+		}
+
 		wp_localize_script('pseo-admin', 'PSEO', [
-			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('pseo_nonce'),
+			'ajax_url'       => admin_url('admin-ajax.php'),
+			'nonce'          => wp_create_nonce('pseo_nonce'),
 			'confirm_delete' => __('Delete this project and ALL its generated pages? This cannot be undone.', 'knr-pseo-generator'),
-			'confirm_pages' => __('Delete all generated pages for this project?', 'knr-pseo-generator'),
-			'generating' => __('Generating…', 'knr-pseo-generator'),
-			'generate' => __('Generate', 'knr-pseo-generator'),
-			'saved' => __('Project saved!', 'knr-pseo-generator'),
+			'confirm_pages'  => __('Delete all generated pages for this project?', 'knr-pseo-generator'),
+			'generating'     => __('Generating…', 'knr-pseo-generator'),
+			'generate'       => __('Generate', 'knr-pseo-generator'),
+			'saved'          => __('Project saved!', 'knr-pseo-generator'),
+			// i18n strings for the CSV upload UI
+			'csv_upload_title'  => __('Select or Upload your CSV file', 'knr-pseo-generator'),
+			'csv_upload_button' => __('Use this CSV', 'knr-pseo-generator'),
 		]);
 	}
 
 	/* ── DB rebuild handler ───────────────────────────────── */
-
 	public function handle_db_rebuild(): void
 	{
 		if (
@@ -68,7 +72,6 @@ class PSEO_Admin
 	}
 
 	/* ── Admin notices ────────────────────────────────────── */
-
 	public function admin_notices(): void
 	{
 		if (isset($_GET['pseo_rebuilt'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -79,15 +82,16 @@ class PSEO_Admin
 	}
 
 	/* ── Page renderers ───────────────────────────────────── */
-
 	public function page_projects(): void
 	{
 		require_once PSEO_PLUGIN_DIR . 'admin/views/page-projects.php';
 	}
+
 	public function page_project_edit(): void
 	{
 		require_once PSEO_PLUGIN_DIR . 'admin/views/page-project-edit.php';
 	}
+
 	public function page_settings(): void
 	{
 		require_once PSEO_PLUGIN_DIR . 'admin/views/page-settings.php';
