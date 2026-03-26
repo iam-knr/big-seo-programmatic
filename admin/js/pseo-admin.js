@@ -152,8 +152,7 @@
             if (f.name.indexOf('source_config') === -1) payload[f.name] = f.value;
         });
         var sourceConfig = {};
-        $form.find('[name^="source_config["]').each(function () {
-            var parts = this.name.match(/\[([^\]]+)\]/g).map(function (s) { return s.slice(1,-1); });
+		$form.find('[name^="source_config"]:visible').each(function () {            var parts = this.name.match(/\[([^\]]+)\]/g).map(function (s) { return s.slice(1,-1); });
             if (parts.length === 1) sourceConfig[parts[0]] = $(this).val();
             else if (parts.length === 2) { if (!sourceConfig[parts[0]]) sourceConfig[parts[0]] = {}; sourceConfig[parts[0]][parts[1]] = $(this).val(); }
         });
